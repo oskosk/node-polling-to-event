@@ -21,13 +21,18 @@ function pollingtoevent(func, options) {
 
   options = extend(defaults, options);
 
-  function done(err, data) {
+  function done(err) {
     if (err) {
-      debug("Emitting `error`: %s with data %j", err, data);
-      return _this.emit("error", data);
+      debug("Emitting `error`: %s.", err);
+      return _this.emit("error", err);
     }
-    debug("Emitting '%s' with data %j", options.eventName, data);
-    return _this.emit(options.eventName, data);
+    debug("Emitting '%s'.", options.eventName);
+    var params = [options.eventName];
+    for (var i = 1; i < arguments.length; i++) {
+      params.push(arguments[i]);
+    }
+    _this.emit.apply(_this, params);
+    //return _this.emit(options.eventName, data);
   }
 
   setInterval(function() {

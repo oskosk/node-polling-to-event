@@ -1,17 +1,16 @@
-var pollingtoevent = require("..");
+var pollingtoevent = require(".."),
+  request = require("request");
 
+var url = "https://raw.githubusercontent.com/mozilla/contribute.json/master/schema.json";
 
 emitter = pollingtoevent(function(done) {
-  setTimeout(function() {
-    done(null, {
-      sample: "sample data"
-    });
-  }, 2000);
-
+  request.get(url, function(err, req, data) {
+    done(err, data);
+  });
 });
 
 emitter.on("interval", function(data) {
-  console.log(data);
+  console.log("Event emitted at %s, with data %j", Date.now(), data);
 });
 
 emitter.on("error", function(err, data) {
