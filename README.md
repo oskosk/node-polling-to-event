@@ -82,7 +82,6 @@ Emitted when `done()` was called with an error. It emits the data polled by your
 ##TODO
 
 * Add a default behaviour to poll URLs via a `GET` request if an URL string is passed as argument instead of a function.
-* Document that `done()` can be passed multiple extra arguments. Not just one.
 
 #License 
 
