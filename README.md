@@ -48,10 +48,15 @@ Receive events with EventEmitter from a polling function ran on an interval
 
 **Long polling**
 
+  If you set the option `longpolling:true` the emitter will emit an *update* event when
+  the polled data differs.
+
     emitter = pollingtoevent(function(done) {
       request.get(url, function(err, req, data) {
         done(err, data);
       });
+    }, {
+      longpolling:true
     });
 
     emitter.on("update", function(data) {
@@ -71,17 +76,18 @@ It returns a NodeJS [EventEmitter](http://nodejs.org/api/events.html#events_clas
     * `arg1, arg2, ... argN` - The data fetched by your polling function. You pass it to `done()` in order to be emitted by the emitter. Any number of arguments will do.  
 * `options` - **Optional**. An `Object` having any of the following keys:
   * `interval` - Interval in milliseconds. **Default**: 1000.
-  * `eventName` - The event name to emit on each successful call to `done()` as second argument. **Default**: `"interval"`.
-  * `longpolling` - Set to true if you want to be notified when data from the last poll differ from previous polled data. The data taken for comparison is the arguments your `pollingfunction` passes to `done()`. The comparison is made with [deep-equal](https://www.npmjs.com/package/deep-equal). **Default:** `false`.
+  * `eventName` - The event name to emit on each successful call to `done()`. **Default**: `"interval"`.
+  * `longpolling` - Set to true if you want to be notified when data from the last poll differ from previous polled data. The data taken for comparison is every argument your `pollingfunction` passes to `done()`. The comparison is made with [deep-equal](https://www.npmjs.com/package/deep-equal). **Default:** `false`.
   * `eventUpdateName` - The event name to emit when last polled data differs from previous polling data. **Default**: `"update"`.
 
 **Returns** - Returns an `events.EventEmitter` instance.
 
 #### Events
 
-* `interval` - Emitted when an interval has completed and the `done()` function was called with no errors. *You can also customize this event's name using the option `eventName`*. **Arguments**: Your listener gets the parameter passed to `done()` excepting the error parameter which is the first parameter `done()` uses.
-* `error` - Emitted when `done()` was called with an error object. It emits the data polled by your polling function.  **Arguments**. An error object.
-* `update` - Emitted when option `longpolling` is true and the last polled data differs from the previous polling data. **Arguments**: **Arguments**: Your listener gets the parameter passed to `done()` excepting the error parameter which is the first parameter `done()` uses.
+* `interval` - Emitted when an interval has completed and the `done()` function was called with no errors. *You can also customize this event's name using the option `eventName`*. **Parameters**: Your listener gets the parameter passed to `done()` excepting the error parameter which is the first parameter `done()` uses.
+* `error` - Emitted when `done()` was called with an error object. It emits the data polled by your polling function.  **Parameters**. An error object.
+* `update` - Emitted when option `longpolling` is true and the last polled data differs from the previous polling data. **Parameters**: Your listener gets the parameter received by `done()` excepting the error parameter which is the first parameter `done()` uses. *You can also customize this event's name using the option `updateEventName`*
+
 ## TODO
 
 * Add a default behaviour to poll URLs via a `GET` request if an URL string is passed as argument instead of a function.
