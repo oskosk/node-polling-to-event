@@ -22,8 +22,8 @@
     "url": "https://github.com/oskosk/node-polling-to-event/issues"
   },
   "dependencies": {
-    "superagent": "~0.21.0",
     "extend": "~2.0.0",
-    "debug": "~2.1.1"
+    "debug": "~2.1.1",
+    "deep-equal": "~0.2.1"
   }
 }
