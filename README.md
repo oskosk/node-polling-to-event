@@ -2,11 +2,11 @@
 Receive events with EventEmitter from a polling function ran on an interval
 
 
-##Installation
+## Installation
 
     $ npm install polling-to-event
 
-##Usage
+## Usage
 
     var pollingtoevent = require("polling-to-event");
 
@@ -25,7 +25,7 @@ Receive events with EventEmitter from a polling function ran on an interval
     });    
 
 
-##Example
+## Example
 
     var pollingtoevent = require("polling-to-event"),
       request = require("request");
@@ -46,9 +46,9 @@ Receive events with EventEmitter from a polling function ran on an interval
       console.log("Emitter errored: %s. with data %j", err, data);
     });
 
-##API
+## API
 
-### pollingtoevent(pollingfunction, options)
+#### pollingtoevent(pollingfunction, options)
 
 It returns a NodeJS [EventEmitter](http://nodejs.org/api/events.html#events_class_events_eventemitter)  that emits the polled data on an interval.
 
@@ -61,29 +61,19 @@ It returns a NodeJS [EventEmitter](http://nodejs.org/api/events.html#events_clas
   * `interval` - Interval in milliseconds. **Default**: 1000.
   * `eventName` - The event name to emit on each successful call to `done()` as second argument. **Default**: `"interval"`.
 
-### Events
+**Returns** - Returns an `events.EventEmitter` instance.
 
-#### interval
+#### Events
 
-Emitted when an interval has completed and the `done()` function was called with no errors. *You can also customize this event's name using the option `eventName`*.
+* `interval` - Emitted when an interval has completed and the `done()` function was called with no errors. *You can also customize this event's name using the option `eventName`*. **Arguments**: By listening to this event, you get on the listener the arguments passed by you to `done()` after the first argument.
 
-**Arguments**
+* `error` - Emitted when `done()` was called with an error. It emits the data polled by your polling function.  **Arguments**. A NodeJS error object.
 
-By listening to this event, you get on the listener, the arguments passed by you to `done()` after the first argument.
-
-#### error
-
-Emitted when `done()` was called with an error. It emits the data polled by your polling function.
-
-**Arguments**
-
-* `error`: A NodeJS error object.
-
-##TODO
+## TODO
 
 * Add a default behaviour to poll URLs via a `GET` request if an URL string is passed as argument instead of a function.
 
-#License 
+##License 
 
 The MIT License (MIT)
 
