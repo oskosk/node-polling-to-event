@@ -1,0 +1,29 @@
+{
+  "name": "polling-to-event",
+  "version": "1.0.0",
+  "description": "Receive events with EventEmitter from a polling function run on an interval",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oskosk/node-polling-to-event"
+  },
+  "keywords": [
+    "polling",
+    "async",
+    "eventemitter",
+    "events"
+  ],
+  "author": "osk <oskosk@gmail.com> (http://olopez.com.ar/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oskosk/node-polling-to-event/issues"
+  },
+  "dependencies": {
+    "superagent": "~0.21.0",
+    "extend": "~2.0.0",
+    "debug": "~2.1.1"
+  }
+}
