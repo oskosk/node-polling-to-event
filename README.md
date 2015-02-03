@@ -108,7 +108,7 @@ Resumes the interval if it has been stopped
 
 * Add a default behaviour to poll URLs via a `GET` request if an URL string is passed as argument instead of a function.
 
-##License 
+## License 
 
 The MIT License (MIT)
 
