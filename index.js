@@ -13,6 +13,7 @@ function pollingtoevent(func, options) {
   }
 
   var _this = this,
+    firstpoll = true,
     lastParams = undefined,
     defaults = {
       interval: 1000,
@@ -34,38 +35,39 @@ function pollingtoevent(func, options) {
     // Do nothing if the user paused the interval.
     // Otherwise the user calls pause() and a callback from previous intervals are called
     // after the user's wish to pause the event emission.
+    //
+    // I check if _this.interval is defined here because on the first poll
+    // the interval has not been set yet. 
     if (_this.interval && _this.interval.isPaused()) {
       return;
     }
     // Save the event name as first item in the parameters array
     // that will be used wit _this.emit.apply()
-    var params = [options.eventName];
+    var params = [];
     for (var i = 1; i < arguments.length; i++) {
       params.push(arguments[i]);
     }
-    debug("Emitting '%s' with params %j.", options.eventName, params);
+    debug("Emitting '%s'.", options.eventName);
     // Emit the interval event after every polling
-    _this.emit.apply(_this, params);
+    _this.emit.apply(_this, [options.eventName].concat(params));
 
-    // If long polling is set, compare
+    // If this is the first call or long polling is set, compare
     // the last value polled with the last one
-    // emit
-    if (options.longpolling) {
+    if (firstpoll || options.longpolling) {
       debug("Comparing last polled parameters");
       //debug("%j, %j", params, lastParams);
       if (!equal(params, lastParams)) {
-        debug("Last polled data and previous poll data are not equal. Emitting '%s' event", options.updateEventName);
-        var updateEventParams = params.slice(0);
-        updateEventParams[0] = options.updateEventName;
+        debug("Last polled data and previous poll data are not equal.");
+        debug("Emitting '%s'.", options.updateEventName);
         // Emit the update event after longpolling
-        _this.emit.apply(_this, params.slice(1))
+        _this.emit.apply(_this, [options.updateEventName].concat(params))
       } else {
-        debug("Last polled data and previous poll data are equal. Not emitting '%s' event", options.updateEventName);
-
+        debug("Last polled data and previous poll data are equal.");
       }
-      lastParams = params.slice(0);
+      lastParams = params;
     }
-
+    // Set this to false when the function ends
+    firstpoll = false;
   }
 
   // Call the function right away
@@ -73,16 +75,16 @@ function pollingtoevent(func, options) {
   // to set handlers for the first poll intuitively after creating a poller
   setTimeout(function() {
     func(done);
+    _this.interval = pauseable.setInterval(function() {
+      // Call the user's function only if he has not paused the interval.
+      // Otherwise the user calls pause() and a callback from previous intervals are called
+      // after the user's wish to pause the event emission.
+      if (!_this.interval.isPaused()) {
+        func(done);
+      }
+    }, options.interval);
   }, 0);
   // Set the interval
-  _this.interval = pauseable.setInterval(function() {
-    // Call the user's function only if he has not paused the interval.
-    // Otherwise the user calls pause() and a callback from previous intervals are called
-    // after the user's wish to pause the event emission.
-    if (!_this.interval.isPaused()) {
-      func(done);
-    }
-  }, options.interval);
 
 
 }

@@ -6,9 +6,11 @@ var nums = [1, 4, 4, 4, 5, 8],
 poller = pollingtoemitter(function(done) {
   done(null, nums[i]);
   i = (i == nums.length - 1) ? 0 : i + 1;
+}, {
+  longpolling: true
 });
 
-poller.on("interval", function(data) {
-  console.log("Chicho :%s", nums[i]);
+poller.on("update", function(data) {
+  console.log("Current number is :%s", nums[i]);
   console.log(data);
 });
