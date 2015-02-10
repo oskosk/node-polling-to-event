@@ -10,7 +10,6 @@ poller = pollingtoemitter(function(done) {
   longpolling: true
 });
 
-poller.on("update", function(data) {
-  console.log("Current number is :%s", nums[i]);
-  console.log(data);
+poller.on("poll", function(data) {
+  console.log("Current number is :%s", data);
 });

@@ -9,7 +9,7 @@ emitter = pollingtoevent(function(done) {
   });
 });
 
-emitter.on("interval", function(data) {
+emitter.on("poll", function(data) {
   console.log("Event emitted at %s, with data %j", Date.now(), data);
 });
 

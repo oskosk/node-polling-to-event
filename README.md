@@ -19,7 +19,7 @@ but with **node-polling-to-event** you can expect events from your own function 
       done(null, arg1, arg2, ..., argN);
     });
 
-    emitter.on("interval", function(data) {
+    emitter.on("poll", function(data) {
       console.log(data);
     });
 
@@ -41,7 +41,7 @@ but with **node-polling-to-event** you can expect events from your own function 
       });
     });
 
-    emitter.on("interval", function(data) {
+    emitter.on("poll", function(data) {
       console.log("Event emitted at %s, with data %j", Date.now(), data);
     });
 
@@ -51,7 +51,7 @@ but with **node-polling-to-event** you can expect events from your own function 
 
 **Long polling**
 
-  If you set the option `longpolling:true` the emitter will emit an *update* event when
+  If you set the option `longpolling:true` the emitter will emit an *longpoll* event when
   the polled data differs.
 
     emitter = pollingtoevent(function(done) {
@@ -62,8 +62,8 @@ but with **node-polling-to-event** you can expect events from your own function 
       longpolling:true
     });
 
-    emitter.on("update", function(data) {
-      console.log("Update emitted at %s, with data %j", Date.now(), data);
+    emitter.on("longpoll", function(data) {
+      console.log("longpoll emitted at %s, with data %j", Date.now(), data);
     });
 
 ## API
@@ -82,8 +82,8 @@ Your polling function will be called right away, and at the end of every interva
 * `options` - **Optional**. An `Object` having any of the following keys:
   * `interval` - Interval in milliseconds. **Default**: 1000.
   * `longpolling` - Set to true if you want to be notified when data from the last poll differ from previous polled data. The data taken for comparison is every argument your `pollingfunction` passes to `done()`. The comparison is made with [deep-equal](https://www.npmjs.com/package/deep-equal). **Default:** `false`.
-  * `eventName` - The event name to emit on each successful call to `done()`. **Default**: `"interval"`.
-  * `eventUpdateName` - The event name to emit when last polled data differs from previous polling data. **Default**: `"update"`.
+  * `eventName` - The event name to emit on each successful call to `done()`. **Default**: `"poll"`.
+  * `longpollEventName` - The event name to emit when last polled data differs from previous polling data. **Default**: `"longpoll"`.
 
 **Returns**
 
@@ -91,9 +91,9 @@ Returns an [EventEmitter](http://nodejs.org/api/events.html#events_class_events_
 
 #### Emitter events
 
-* `interval` - Emitted when an interval has completed and the `done()` function was called with no errors. *You can also customize this event's name using the option `eventName`*. **Parameters**: Your listener gets the parameter passed to `done()` with exception of the error parameter which is the first parameter `done()` uses.
+* `poll` - Emitted when an interval has completed and the `done()` function was called with no errors. *You can also customize this event's name using the option `eventName`*. **Parameters**: Your listener gets the parameter passed to `done()` with exception of the error parameter which is the first parameter `done()` uses.
 * `error` - Emitted when `done()` was called with an error object. It emits the data polled by your polling function.  **Parameters**. An error object.
-* `update` - Emitted when option `longpolling` is true and the last polled data differs from the previous polling data. **Parameters**: Your listener gets the parameter received by `done()` with exception of the error parameter which is the first parameter `done()` uses. *You can also customize this event's name using the option `updateEventName`*
+* `longpoll` - Emitted when option `longpolling` is true and the last polled data differs from the previous polling data. **Parameters**: Your listener gets the parameter received by `done()` with exception of the error parameter which is the first parameter `done()` uses. *You can also customize this event's name using the option `longpollEventName`*
 
 #### Emitter methods
 
