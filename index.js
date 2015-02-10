@@ -12,8 +12,8 @@ function pollingtoevent(func, options) {
     return new pollingtoevent(func, options);
   }
 
-  var lastParams = undefined;
   var _this = this,
+    lastParams = undefined,
     defaults = {
       interval: 1000,
       eventName: "interval",
@@ -34,16 +34,19 @@ function pollingtoevent(func, options) {
     // Do nothing if the user paused the interval.
     // Otherwise the user calls pause() and a callback from previous intervals are called
     // after the user's wish to pause the event emission.
-    if (_this.interval.isPaused()) {
-      return
+    if (_this.interval && _this.interval.isPaused()) {
+      return;
     }
-    debug("Emitting '%s'.", options.eventName);
     // Save the event name as first item in the parameters array
     // that will be used wit _this.emit.apply()
     var params = [options.eventName];
     for (var i = 1; i < arguments.length; i++) {
       params.push(arguments[i]);
     }
+    debug("Emitting '%s' with params %j.", options.eventName, params);
+    // Emit the interval event after every polling
+    _this.emit.apply(_this, params);
+
     // If long polling is set, compare
     // the last value polled with the last one
     // emit
@@ -62,11 +65,16 @@ function pollingtoevent(func, options) {
       }
       lastParams = params.slice(0);
     }
-    // Emit the interval event after every polling
 
-    return _this.emit.apply(_this, params);
   }
 
+  // Call the function right away
+  // inside a timeout with 0 in order for the user to be able
+  // to set handlers for the first poll intuitively after creating a poller
+  setTimeout(function() {
+    func(done);
+  }, 0);
+  // Set the interval
   _this.interval = pauseable.setInterval(function() {
     // Call the user's function only if he has not paused the interval.
     // Otherwise the user calls pause() and a callback from previous intervals are called
@@ -75,6 +83,8 @@ function pollingtoevent(func, options) {
       func(done);
     }
   }, options.interval);
+
+
 }
 
 // Inherit from EventEmitter
