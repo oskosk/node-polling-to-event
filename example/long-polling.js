@@ -11,8 +11,8 @@ emitter = pollingtoevent(function(done) {
   longpolling: true
 });
 
-emitter.on("update", function(data) {
-  console.log("Update emitted at %s, with data %j", Date.now(), data);
+emitter.on("longpoll", function(data) {
+  console.log("longpoll emitted at %s, with data %j", Date.now(), data);
 });
 
 emitter.on("error", function(err, data) {

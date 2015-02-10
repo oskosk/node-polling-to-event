@@ -8,7 +8,7 @@ poller = pollingtoemitter(function(done) {
   i = (i == nums.length - 1) ? 0 : i + 1;
 });
 
-poller.on("interval", function(data) {
+poller.on("poll", function(data) {
   console.log("Chicho :%s", nums[i]);
   console.log(data);
 });

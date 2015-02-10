@@ -16,8 +16,8 @@ function pollingtoevent(func, options) {
     lastParams = undefined,
     defaults = {
       interval: 1000,
-      eventName: "interval",
-      updateEventName: "update",
+      eventName: "poll",
+      longpollEventName: "longpoll",
       longpolling: false,
     };
 
@@ -44,7 +44,7 @@ function pollingtoevent(func, options) {
       params.push(arguments[i]);
     }
     debug("Emitting '%s' with params %j.", options.eventName, params);
-    // Emit the interval event after every polling
+    // Emit the poll event after every polling
     _this.emit.apply(_this, params);
 
     // If long polling is set, compare
@@ -54,13 +54,13 @@ function pollingtoevent(func, options) {
       debug("Comparing last polled parameters");
       //debug("%j, %j", params, lastParams);
       if (!equal(params, lastParams)) {
-        debug("Last polled data and previous poll data are not equal. Emitting '%s' event", options.updateEventName);
-        var updateEventParams = params.slice(0);
-        updateEventParams[0] = options.updateEventName;
-        // Emit the update event after longpolling
+        debug("Last polled data and previous poll data are not equal. Emitting '%s' event", options.longpollEventName);
+        var longpollEventParams = params.slice(0);
+        longpollEventParams[0] = options.longpollEventName;
+        // Emit the longpoll event after longpolling
         _this.emit.apply(_this, params.slice(1))
       } else {
-        debug("Last polled data and previous poll data are equal. Not emitting '%s' event", options.updateEventName);
+        debug("Last polled data and previous poll data are equal. Not emitting '%s' event", options.longpollEventName);
 
       }
       lastParams = params.slice(0);
