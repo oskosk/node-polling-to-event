@@ -15,6 +15,6 @@ emitter.on("longpoll", function(data) {
   console.log("longpoll emitted at %s, with data %j", Date.now(), data);
 });
 
-emitter.on("error", function(err, data) {
-  console.log("Emitter errored: %s. with data %j", err, data);
+emitter.on("error", function(err) {
+  console.log("Emitter errored: %s. with", err);
 });
