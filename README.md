@@ -72,6 +72,8 @@ but with **node-polling-to-event** you can expect events from your own function 
 
 It creates an event emitter that emits the polled data on an interval.
 
+Your polling function will be called right away, and at the end of every interval.
+
 **Arguments**
 * `pollingfunction(done)` - **Required**. The function you want to be called at an interval. When called, this function will receive a `done` parameter as its last argument.
   * `done(error, arg1, arg2, ... argN) ` - You must call **done()**  inside your function when your function finish its work.
