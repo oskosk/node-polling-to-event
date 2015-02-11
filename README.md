@@ -97,13 +97,13 @@ Returns an [EventEmitter](http://nodejs.org/api/events.html#events_class_events_
 
 #### Emitter methods
 
-##### stop()
+##### pause()
 
-Stops the interval.
+Pauses the interval.
 
 ##### resume()
 
-Resumes the interval if it has been stopped
+Resumes the interval if it has been paused
 
 
 ## TODO
