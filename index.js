@@ -101,3 +101,8 @@ pollingtoevent.prototype.resume = function() {
   debug("Resuming interval");
   this.interval.resume();
 }
+
+pollingtoevent.prototype.clear = function() {
+  debug("Clearing interval");
+  this.interval.clear();
+}
