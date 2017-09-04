@@ -1,6 +1,6 @@
 {
   "name": "polling-to-event",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Receive events with EventEmitter from a polling function ran on an interval",
   "main": "index.js",
   "scripts": {
@@ -23,9 +23,9 @@
     "url": "https://github.com/oskosk/node-polling-to-event/issues"
   },
   "dependencies": {
-    "extend": "~2.0.0",
-    "debug": "~2.1.1",
+    "debug": "^3.0.1",
     "deep-equal": "~0.2.1",
+    "extend": "~2.0.0",
     "pauseable": "~0.1.5"
   }
 }
