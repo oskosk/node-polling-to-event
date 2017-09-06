@@ -1,6 +1,6 @@
 {
   "name": "polling-to-event",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "description": "Receive events with EventEmitter from a polling function ran on an interval",
   "main": "index.js",
   "scripts": {

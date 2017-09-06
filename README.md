@@ -105,6 +105,10 @@ Pauses the interval.
 
 Resumes the interval if it has been paused
 
+##### clear()
+
+Clears the interval timer
+
 
 ## TODO
 
