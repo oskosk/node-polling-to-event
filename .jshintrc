@@ -18,10 +18,13 @@
   "predef": [
     "exports", 
     "require",
-    "process"
+    "process",
+    "expect"
   ],
   "esnext": true,
   "shadow": false,
   "supernew": false,
-  "strict": false
+  "strict": false,
+  "mocha": true,
+  "eqeqeq": false
 }
