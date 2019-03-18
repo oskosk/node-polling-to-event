@@ -54,10 +54,10 @@ describe('longpolling test', function() {
         });
     });
 
-    describe('when the data increments and repeats', () => {
+    describe('when the data increments and repeats', function() {
         var nums = [1, 4, 4, 4, 5, 8];
 
-        beforeEach(() => {
+        beforeEach(function() {
             poller = setUpPoller(nums);
         });
 
