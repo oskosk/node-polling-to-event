@@ -4,7 +4,7 @@
   "description": "Receive events with EventEmitter from a polling function ran on an interval",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -27,5 +27,9 @@
     "deep-equal": "~0.2.1",
     "extend": "~2.0.0",
     "pauseable": "~0.1.5"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.11",
+    "jest": "^24.5.0"
   }
 }
