@@ -12,64 +12,64 @@ but with **node-polling-to-event** you can expect events from your own function 
 ## Usage
 
 ```Javascript
-    var pollingtoevent = require("polling-to-event");
+var pollingtoevent = require("polling-to-event");
 
-    var emitter = pollingtoevent(function(done) {
-      // your async stuff
-      // ....
-      done(null, arg1, arg2, ..., argN);
-    });
+var emitter = pollingtoevent(function(done) {
+  // your async stuff
+  // ....
+  done(null, arg1, arg2, ..., argN);
+});
 
-    emitter.on("poll", function(data) {
-      console.log(data);
-    });
+emitter.on("poll", function(data) {
+  console.log(data);
+});
 
-    emitter.on("err", function(err) {
-      console.log(err);
-    });    
+emitter.on("err", function(err) {
+  console.log(err);
+});    
 ```
 
 ## HTTP request *polling* example
 ```Javascript
-    var pollingtoevent = require("polling-to-event"),
-      request = require("request");
+var pollingtoevent = require("polling-to-event"),
+  request = require("request");
 
-    var url = "https://raw.githubusercontent.com/mozilla/contribute.json/master/schema.json";
+var url = "https://raw.githubusercontent.com/mozilla/contribute.json/master/schema.json";
 
-    emitter = pollingtoevent(function(done) {
-      request.get(url, function(err, req, data) {
-        done(err, data);
-      });
-    });
+emitter = pollingtoevent(function(done) {
+  request.get(url, function(err, req, data) {
+   done(err, data);
+  });
+});
 
-    emitter.on("poll", function(data) {
-      console.log("Event emitted at %s, with data %j", Date.now(), data);
-    });
+emitter.on("poll", function(data) {
+  console.log("Event emitted at %s, with data %j", Date.now(), data);
+});
 
-    emitter.on("error", function(err, data) {
-      console.log("Emitter errored: %s. with data %j", err, data);
-    });
+emitter.on("error", function(err, data) {
+ console.log("Emitter errored: %s. with data %j", err, data);
+});
 ```
 
 ## HTTP Rrequest *Long polling* example
 
   If you set the option `longpolling:true` the emitter will emit an *longpoll* event when
-  the **polled data differs**. In the example custom interval (in msecs) and custom event name have been specified. 
+  the **polled data differs**. In the example custom interval (350 msecs) and custom event name (MyLongPoll) have been specified. 
 
 ```Javascript
-    emitter = pollingtoevent(function(done) {
-      request.get(url, function(err, req, data) {
-        done(err, data);
-      });
-    }, {
-      longpolling:true,
-      longpollEventName: "MyLongPoll",
-      interval: 350
-    });
+emitter = pollingtoevent(function(done) {
+  request.get(url, function(err, req, data) {
+    done(err, data);
+  });
+}, {
+  longpolling: true,
+  longpollEventName: "MyLongPoll",
+  interval: 350
+});
 
-    emitter.on("MyLongPoll", function(data) {
-      console.log("longpoll emitted at %s, with data %j", Date.now(), data);
-    });
+emitter.on("MyLongPoll", function(data) {
+  console.log("longpoll emitted at %s, with data %j", Date.now(), data);
+});
 ```
 
 ## API
