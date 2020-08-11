@@ -11,6 +11,7 @@ but with **node-polling-to-event** you can expect events from your own function 
 
 ## Usage
 
+```Javascript
     var pollingtoevent = require("polling-to-event");
 
     var emitter = pollingtoevent(function(done) {
@@ -26,10 +27,10 @@ but with **node-polling-to-event** you can expect events from your own function 
     emitter.on("err", function(err) {
       console.log(err);
     });    
+```
 
-
-## Example
-
+## HTTP request *polling* example
+```Javascript
     var pollingtoevent = require("polling-to-event"),
       request = require("request");
 
@@ -48,23 +49,28 @@ but with **node-polling-to-event** you can expect events from your own function 
     emitter.on("error", function(err, data) {
       console.log("Emitter errored: %s. with data %j", err, data);
     });
+```
 
-**Long polling**
+## HTTP Rrequest *Long polling* example
 
   If you set the option `longpolling:true` the emitter will emit an *longpoll* event when
-  the polled data differs.
+  the **polled data differs**. In the example custom interval (in msecs) and custom event name have been specified. 
 
+```Javascript
     emitter = pollingtoevent(function(done) {
       request.get(url, function(err, req, data) {
         done(err, data);
       });
     }, {
-      longpolling:true
+      longpolling:true,
+      longpollEventName: "MyLongPoll",
+      interval: 350
     });
 
-    emitter.on("longpoll", function(data) {
+    emitter.on("MyLongPoll", function(data) {
       console.log("longpoll emitted at %s, with data %j", Date.now(), data);
     });
+```
 
 ## API
 
